@@ -16,14 +16,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-
 @st.cache_data(ttl=600)
 def load_data_from_gsheet():
     sheet_id = "11yuZC64CxxRTvluF_FpZywwDIN93exAu1IXBamzwKZU"
     gid = "874433633"
     csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
     return pd.read_csv(csv_url)
-
 
 def extract_plot_data(val):
     if pd.isna(val) or str(val).strip() in ['None', '', '-']:
@@ -37,7 +35,6 @@ def extract_plot_data(val):
         return None, val_str
     except:
         return None, val_str
-
 
 def evaluate_kpi(current_val, target_str):
     target_str = str(target_str).strip()
@@ -58,7 +55,6 @@ def evaluate_kpi(current_val, target_str):
         return current_val == target_num
     else:
         return current_val >= target_num
-
 
 try:
     with st.spinner('กำลังประมวลผลข้อมูล...'):
@@ -93,7 +89,7 @@ try:
                     statuses.append("⏳ ยังไม่มีข้อมูล")
         df['สถานะ Q1'] = statuses
 
-        # ==========================================
+    # ==========================================
     # 📌 แถบด้านซ้าย (Sidebar)
     # ==========================================
     st.sidebar.markdown(
@@ -176,7 +172,6 @@ try:
         unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # 🎯 แบ่งหน้าจอเป็น 2 ฝั่ง (กราฟ 60% : บทวิเคราะห์ 40%)
     col_chart, col_analysis = st.columns([6, 4])
 
     with col_chart:
@@ -259,8 +254,8 @@ try:
                 )
 
         fig.update_layout(
-            height=550,  # ปรับความสูงให้พอดีกับคอลัมน์
-            autosize=True,  # 🎯 ให้ขยายกว้างเต็มพื้นที่ 60% อัตโนมัติ
+            height=550,
+            autosize=True,
             font=dict(family="TH Sarabun New, Tahoma, sans-serif", size=21, color="black"),
             xaxis=dict(
                 tickmode='array', tickvals=x_positions, ticktext=x_labels,
@@ -284,14 +279,12 @@ try:
 
         config = {'toImageButtonOptions': {'format': 'png', 'filename': f'KPI_Chart_{selected_kpi}', 'height': 600,
                                            'width': 800, 'scale': 2}, 'displayModeBar': True}
-        # 🎯 ใช้ use_container_width=True เพื่อให้กราฟยืดพอดีกับพื้นที่คอลัมน์
         st.plotly_chart(fig, use_container_width=True, config=config)
 
     with col_analysis:
         if 'วิเคราะห์' in df.columns:
             analysis_text = kpi_data['วิเคราะห์']
             if pd.notna(analysis_text) and str(analysis_text).strip() != '':
-                # 🎯 สร้างกล่องตกแต่งแบบ HTML คล้ายฟอร์มรายงาน SAR
                 st.markdown(f"""
                 <div style="background-color: #F8F9FA; padding: 25px; border-radius: 8px; border: 1px solid #E0E0E0; height: 100%; box-shadow: 2px 2px 10px rgba(0,0,0,0.05);">
                     <h5 style="color: #2C3E50; border-bottom: 2px solid #3498DB; padding-bottom: 10px; margin-top: 0; font-weight: bold;">
