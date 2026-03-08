@@ -16,12 +16,16 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=60)
 def load_data_from_gsheet():
     sheet_id = "11yuZC64CxxRTvluF_FpZywwDIN93exAu1IXBamzwKZU"
     gid = "874433633"
     csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
     return pd.read_csv(csv_url)
+
+if st.sidebar.button("🔄 รีเฟรชข้อมูลล่าสุด"):
+    load_data_from_gsheet.clear()
+    st.rerun()
 
 def extract_plot_data(val):
     if pd.isna(val) or str(val).strip() in ['None', '', '-']:
