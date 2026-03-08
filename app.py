@@ -25,7 +25,6 @@ def load_data_from_gsheet():
 
 if st.sidebar.button("🔄 รีเฟรชข้อมูลล่าสุด"):
     load_data_from_gsheet.clear()
-    st.rerun()
 
 def extract_plot_data(val):
     if pd.isna(val) or str(val).strip() in ['None', '', '-']:
